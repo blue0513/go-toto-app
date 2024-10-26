@@ -6,7 +6,6 @@ import (
 	"go_todo_app/config"
 	"log"
 	"net"
-	"net/http"
 )
 
 func run(ctx context.Context) error {
@@ -20,10 +19,7 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, %s", r.URL.Path[1:])
-	})
-
+	handler := NewMux()
 	s := NewServer(l, handler)
 	return s.Run(ctx)
 }
