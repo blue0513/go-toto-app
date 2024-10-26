@@ -3,7 +3,7 @@
 PORT = 8080
 
 run:
-	TODO_PORT=$(PORT) go run main.go
+	TODO_PORT=$(PORT) go run .
 
 test:
 	go test -v ./...

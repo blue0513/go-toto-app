@@ -4,19 +4,28 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"testing"
 
 	"golang.org/x/sync/errgroup"
 )
 
-func TestRun(t *testing.T) {
-	t.Setenv("TODO_PORT", "8080")
+func TestServer_Run(t *testing.T) {
+	l, err := net.Listen("tcp", "localhost:8080")
+	if err != nil {
+		t.Errorf("Error: %+v\n", err)
+	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	eg, ctx := errgroup.WithContext(ctx)
+	mux := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello, %s", r.URL.Path[1:])
+	})
+
 	eg.Go(func() error {
-		return run(ctx)
+		s := NewServer(l, mux)
+		return s.Run(ctx)
 	})
 
 	in := "message"
