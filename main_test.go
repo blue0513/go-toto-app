@@ -11,6 +11,8 @@ import (
 )
 
 func TestRun(t *testing.T) {
+	t.Setenv("TODO_PORT", "8080")
+
 	ctx, cancel := context.WithCancel(context.Background())
 	eg, ctx := errgroup.WithContext(ctx)
 	eg.Go(func() error {
