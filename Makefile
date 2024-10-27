@@ -1,14 +1,17 @@
-.PHONY: run test lint ci
+.PHONY: install run test lint ci
 
 PORT = 8080
 
-run:
+install:
+	go mod tidy
+
+run: install
 	TODO_PORT=$(PORT) go run .
 
-test:
+test: install
 	go test -v ./...
 
-lint:
+lint: install
 	golangci-lint run
 
 ci: test lint
