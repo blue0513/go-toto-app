@@ -25,7 +25,7 @@ func (ts *TaskStore) Add(t *entity.Task) (entity.TaskID, error) {
 func (ts *TaskStore) All() entity.Tasks {
 	tasks := make([]*entity.Task, len(ts.Tasks))
 	for i, t := range ts.Tasks {
-		tasks[i] = t // NOTE: 書籍だと i-1 になってる
+		tasks[i-1] = t
 	}
 	return tasks
 }
